@@ -11,6 +11,8 @@ class Redirect{
 						include 'includes/errors/404.php';
 						exit();
 				}
+			} else {
+				header("Location: $path");
 			}
 		}
 	}
