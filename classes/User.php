@@ -27,8 +27,8 @@ class User {
 	}
 
 	public function login($username = null, $password = null){
-		$user = $this->find($username);
-		print_r($user);
+		if($user = $this->find($username))
+			return $this->__data;
 		
 		return false;
 	}
