@@ -15,5 +15,5 @@ if($user->isLoggedIn()) {
 		</ul>
 	<?php
 } else {
-	echo 'Ban can <a href="login.php">dang nhap</a> hoac <a href="register.php">dang ky</a>.';
+	Redirect::to("login.php");
 }

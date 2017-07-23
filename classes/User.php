@@ -45,36 +45,48 @@ class User {
 		return false;
 	}
 
-	public function login($username = null, $password = null, $remember){
-		if($user = $this->find($username))
-		{
-			if($this->data()->password === Hash::make($password, $this->data()->salt)) {
-				Session::put($this->__sessionName, $this->data()->id);
-				if($remember) {
-					$hash = Hash::unique();
-					$hashCheck = $this->__db->get('user_session', array('user_id', '=', $this->data()->id));
-					if(!$hashCheck->counts()){
-						$this->__db->insert('user_session',array(
-							'user_id' => $this->data()->id,
-							'hash' => $hash
-						));
-					} else {
-						$hash = $hashCheck->first()->hash;
-					}
-				}
-				
-				Cookie::set($this->__cookieName, $hash, Config::get('remember/cookie_expiry'));
-				return true;
-			}
+	public function login($username = null, $password = null, $remember = false){
 
+		if(!$username && !$password && $this->exists()){
+			Session::put($this->__sessionName, $this->__data->id);
+		} else {
+			$user = $this->find($username);
+			if($user)
+			{
+				if($this->data()->password === Hash::make($password, $this->data()->salt)) {
+					Session::put($this->__sessionName, $this->data()->id);
+					if($remember) {
+						$hash = Hash::unique();
+						$hashCheck = $this->__db->get('user_session', array('user_id', '=', $this->data()->id));
+						if(!$hashCheck->counts()){
+							$this->__db->insert('user_session',array(
+								'user_id' => $this->data()->id,
+								'hash' => $hash
+							));
+						} else {
+							$hash = $hashCheck->first()->hash;
+						}
+					}
+					
+					Cookie::set($this->__cookieName, $hash, Config::get('remember/cookie_expiry'));
+					return true;
+				}
+
+			}
 		}
+		
 		
 		return false;
 	}
 
+	public function exists(){
+		return (!empty($this->__data)) ? true : false;
+	}
+
 	public function logout(){
-		if(isset($_SESSION[$this->__sessionName]))
-			Session::delete($this->__sessionName);
+		$this->__db->delete('user_session', array('user_id', '=', $this->data()->id));
+		Session::delete($this->__sessionName);
+		Cookie::delete($this->__cookieName);
 	}
 
 

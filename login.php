@@ -34,27 +34,60 @@
 
 ?>
 
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="author" content="Ngoc Vo">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Login Page</title>
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/config.css">
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
 
-
-
-
-
-<form action="" method="post">
-	<div class="field">
-		<label for="username">Username</label>
-		<input type="text" name="username" value="<?php echo escape(Input::get('username')); ?>" placeholder="Nhap Username...">
+</head>
+<body>
+	<div class="login-box">
+		<div class="heading bg-primary-color" id="login-heading">
+			<div class="float-left">
+				<p class="leading">Đăng Nhập</p>
+				<br/>
+				<span class="small-text">Hãy cung cấp danh tính của bạn để có thể tiếp tục.</span>
+			</div>
+			<div class="float-right"><i class="fa fa-unlock-alt" aria-hidden="true"></i></div>
+		</div>
+		<div class="form-section" id="login-section">
+			<form action="" method="post">
+				<div class="field">
+					<label  for="username"><i class="fa fa-user" aria-hidden="true"></i></label>
+					<input  type="text" name="username" value="<?php echo escape(Input::get('username')); ?>" placeholder="Nhập Username...">
+				</div>
+				<div class="clear-fix"></div>
+				<div class="field">
+					<label for="password"><i class="fa fa-key" aria-hidden="true"></i></label>
+					<input type="password" name="password"  placeholder="Nhập Password...">
+				</div>
+				<div class="clear-fix"></div>
+				<div>
+					<labe for="remember">
+						<input type="checkbox" name="remember" id="remember"> Ghi nhớ
+					</label>
+				</div>
+				<br/>
+				<input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
+				<input type="submit" class="btn btn-success " name="" value="Đăng nhập">
+				<br/>
+				<div class="text-center">
+					<a href="#" >Quên mật khẩu ?</a> | <a href="#">Đăng ký</a>
+					<div class="clear-fix"></div>
+				</div>
+			</form>
+		</div>
 	</div>
-	<div class="field">
-		<label for="password">Password</label>
-		<input type="password" name="password"  placeholder="Nhap Password...">
-	</div>
+</body>
+</html>
 
-	<div class="field">
-		<label for="remember">
-			<input type="checkbox" name="remember" id="remember"> Remember
-		</label>
-	</div>
 
-	<input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
-	<input type="submit" name="" value="Dang Nhap">
-</form>
+
+
+

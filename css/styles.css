@@ -1,0 +1,57 @@
+/*====================================== LOGIN SECTION ==========================================*/
+
+.login-box{
+	width: 500px;
+	box-sizing:border-box;
+	margin: 100px auto;
+	/*border:1px solid rgba(44, 62, 80,1.0);*/
+	box-shadow: 0 0 10px 0 rgba(52, 73, 94,1.0);
+}
+
+.heading {
+	color: #fff;
+	height: 120px;
+	box-sizing: border-box;
+	padding: 20px;
+}
+
+.heading i {
+	font-size: 80px;
+}
+
+.form-section {
+	box-sizing: border-box;
+	padding: 20px;
+	background-color:rgba(236, 240, 241,1.0);
+}
+
+.form-section .field {
+	border: 1px solid rgba(149, 165, 166,1.0);
+	height: 50px;
+	box-sizing: border-box;
+	padding: 0 5px ;
+	background-color: #fff;
+	margin-bottom: 20px;
+}
+
+.form-section .field input:not([type='checkbox']) {
+	border: none;
+	width: 90%;
+	height: 100%;
+	box-sizing: border-box;
+	padding-left: 10px;
+}
+
+.form-section .field i { font-size: 20px; }
+
+.form-section .field label, input{
+	display: inline-block;
+}
+
+.form-section .btn {
+	font-size: 15px;
+}
+
+
+
+/*====================================== END LOGIN SECTION ==========================================*/
