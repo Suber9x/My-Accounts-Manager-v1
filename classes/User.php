@@ -89,6 +89,9 @@ class User {
 		Cookie::delete($this->__cookieName);
 	}
 
+	public function checkPermissionGroup($user_group){
+		return $this->__db->get('groups', array('id', '=', $user_group));
+	}
 
 	public function data(){
 		return $this->__data;

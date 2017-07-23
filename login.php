@@ -30,6 +30,10 @@
 		}
 	}
 
+	$user = new User();
+	if($user->isLoggedIn()) {
+		Redirect::to("index.php");
+	} 
 
 
 ?>
@@ -57,7 +61,7 @@
 			<div class="float-right"><i class="fa fa-unlock-alt" aria-hidden="true"></i></div>
 		</div>
 		<div class="form-section" id="login-section">
-			<form action="" method="post">
+			<form action="" method="post" accept-charset="UTF-8">
 				<div class="field">
 					<label  for="username"><i class="fa fa-user" aria-hidden="true"></i></label>
 					<input  type="text" name="username" value="<?php echo escape(Input::get('username')); ?>" placeholder="Nhập Username...">
@@ -78,7 +82,7 @@
 				<input type="submit" class="btn btn-success " name="" value="Đăng nhập">
 				<br/>
 				<div class="text-center">
-					<a href="#" >Quên mật khẩu ?</a> | <a href="#">Đăng ký</a>
+					<a href="#" >Quên mật khẩu ?</a> | <a href="register.php">Đăng ký</a>
 					<div class="clear-fix"></div>
 				</div>
 			</form>
