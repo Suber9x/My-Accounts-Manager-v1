@@ -1,7 +1,7 @@
 <?php
 
 class User {
-	private $__db, $__data, $__sessionName, $__loggedIn = false, $__cookieName;
+	private $__db, $__data, $__sessionName, $__loggedIn = false, $__cookieName, $__pincodeName, $__pincode = false;
 
 	public function __construct($user = null){
 		$this->__db = DB::getInstance();
@@ -9,6 +9,8 @@ class User {
 		$this->__sessionName = Config::get('session/session_name');
 
 		$this->__cookieName = Config::get('remember/cookie_name');
+
+		$this->__pincodeName = Config::get('session/pincode_name');
 		
 		if(!$user) {
 			if(Session::exists($this->__sessionName)) {
@@ -55,6 +57,7 @@ class User {
 			{
 				if($this->data()->password === Hash::make($password, $this->data()->salt)) {
 					Session::put($this->__sessionName, $this->data()->id);
+					Session::put($this->__pincodeName, 'false');
 					if($remember) {
 						$hash = Hash::unique();
 						$hashCheck = $this->__db->get('user_session', array('user_id', '=', $this->data()->id));
@@ -86,6 +89,7 @@ class User {
 	public function logout(){
 		$this->__db->delete('user_session', array('user_id', '=', $this->data()->id));
 		Session::delete($this->__sessionName);
+		Session::delete($this->__pincodeName);
 		Cookie::delete($this->__cookieName);
 	}
 
@@ -99,6 +103,23 @@ class User {
 
 	public function isLoggedIn(){
 		return $this->__loggedIn;
+	}
+
+	public static function checkPincode($input, $pincode) {
+		return ($input == $pincode) ? true : false;
+	}
+
+	public  function successPincode(){
+		$this->__pincode = true;
+	}
+
+	public function pincode(){
+		return $this->__pincode;
+	}
+
+	public function getAllAccount($id){
+		return $this->__db->get('service_account', array('user_id', '=', $id));
+		
 	}
 
 }

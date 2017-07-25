@@ -4,5 +4,5 @@
 	$user = new User();
 	if($user->isLoggedIn()){
 		$user->logout();
-		Redirect::to('index.php');
+		Redirect::to('login.php');
 	}

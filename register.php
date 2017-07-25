@@ -3,7 +3,6 @@
 
 	if(Input::exists()){
 		if(Token::check(Input::get('token'))) {
-			echo "Dang chay <br>";
 
 			$validate = new Validation();
 			$validation = $validate->check($_POST, array(
@@ -15,20 +14,26 @@
 					'unique' => 'users'
 				),
 				'password' => array(
-					'name' => 'Mat khau',
+					'name' => 'Mật khẩu',
 					'required' => true,
 					'min' => 6
 				),
 				'password_confirm' => array(
-					'name' => 'Xac thuc mat khau',
+					'name' => 'Xác thực mật khẩu',
 					'required' => true,
 					'matches' => 'password'
 				), 
 				'name' => array(
-					'name' => 'Ho va ten',
+					'name' => 'Họ tên',
 					'required' => true,
 					'min' => 2,
 					'max' => 20
+				), 
+				'pincode' => array(
+					'name' => 'Mã pin',
+					'required' => true,
+					'min' => 4,
+					'max' => 8
 				)
 
 			));
@@ -97,19 +102,23 @@
 			<form action="" method="post" accept-charset="UTF-8">
 				<p>Username</p>
 				<div class="field">
-					<input type="text" name="username" value="<?php echo escape(Input::get('username')); ?>" placeholder="Nhap Username...">
+					<input type="text" name="username" value="<?php echo escape(Input::get('username')); ?>" placeholder="Nhập tên đăng nhập...">
 				</div>
 				<p>Password</p>
 				<div class="field">
-					<input type="password" name="password"  placeholder="Nhap Password...">
+					<input type="password" name="password"  placeholder="Nhap mật khẩu...">
 				</div>
 				<p>Nhập lại Password</p>
 				<div class="field">
-					<input type="password" name="password_confirm"  placeholder="Nhap Lai Password...">
+					<input type="password" name="password_confirm"  placeholder="Nhập lại mật khẩu...">
 				</div>
 				<p>Họ tên</p>
 				<div class="field">
-					<input type="text" name="name" value="<?php echo escape(Input::get('name')); ?>" placeholder="Nhap Ho Ten...">
+					<input type="text" name="name" value="<?php echo escape(Input::get('name')); ?>" placeholder="Nhập họ tên...">
+				</div>
+				<p>Tạo mã pin</p>
+				<div class="field">
+					<input type="number" name="name"  placeholder="Nhập mã pin (4 số trở lên)...">
 				</div>
 				<br/>
 				<input type="hidden" name="token" value="<?php echo Token::generate(); ?>">

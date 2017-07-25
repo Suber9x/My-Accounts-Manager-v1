@@ -32,7 +32,7 @@
 
 	$user = new User();
 	if($user->isLoggedIn()) {
-		Redirect::to("index.php");
+		Redirect::to("pincode.php");
 	} 
 
 

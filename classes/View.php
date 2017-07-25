@@ -3,7 +3,7 @@
 class View{
 
 	public static function include($path) {
-		include_once 'view/'.$path;
+		include 'view/'.$path;
 	}
 
 
