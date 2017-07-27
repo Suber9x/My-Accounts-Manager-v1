@@ -16,29 +16,31 @@ class Validation{
 				$item = escape($item);
  
 				if($rule === 'required' && empty($value)){
-					$this->addError('Vui long nhap '.$items[$item]['name']);
+					$this->addError('Vui lòng nhập '.$items[$item]['name']);
 				} elseif(!empty($value)) {
 					switch($rule){
 						case 'min':
 							if(strlen($value) < $rule_value){
-								$this->addError("{$items[$item]['name']} yeu cau {$rule_value} ky tu tro len");
+								$this->addError("{$items[$item]['name']} yêu cầu {$rule_value} ký tự trở lên");
 							}
 							break;
 						case 'max':
 							if(strlen($value) > $rule_value){
-								$this->addError("{$items[$item]['name']} toi da {$rule_value} ky tu");
+								$this->addError("{$items[$item]['name']} tối đa {$rule_value} ký tự");
 							}
 							break;
 						case 'unique':
 							$check = $this->__db->get($rule_value, array($item, '=', $value));
 							if($check->counts()) {
-								$this->addError("{$item} da ton tai");
+								$this->addError("{$items['item']['name']} đã tồn tại");
 							}
 							break;
 						case 'matches':
 							if($value != $source[$rule_value]) {
-								$this->addError('Mat khau khong trung khop voi nhau');
+								$this->addError("{$items[$item]['name']} và {$items[$rule_value]['name']} không trùng khớp");
 							}
+							break;
+						case 'current_password':
 							break;
 						default:
 							break;

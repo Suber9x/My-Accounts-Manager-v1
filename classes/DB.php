@@ -59,7 +59,8 @@ class DB {
 
 			if(in_array($operator, $operators)) {
 				$sql = "{$action} FROM {$table} WHERE {$field} {$operator} ?";
-
+				// echo $sql;
+				// die();
 				if(!$this->query($sql, array($value))->error()) {
 					return $this;
 				}
@@ -76,9 +77,13 @@ class DB {
 			}
 			$sql .= " WHERE {$field} = ?";
 
+			// echo $sql;
+			// die();
+
 			if(!$this->query($sql, array($value))->error()){
 				return $this;
-			}
+			} 
+
 		} elseif($action === "INSERT") {
 			$sql = "INSERT INTO {$table} ";
 			$fields = array();
@@ -140,3 +145,4 @@ class DB {
 
 
 }
+

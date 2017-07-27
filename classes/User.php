@@ -122,4 +122,9 @@ class User {
 		
 	}
 
+	public function changePassword($fileds) {
+		return $this->__db->update('users', $fileds);
+	}
+
+
 }

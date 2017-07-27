@@ -2,7 +2,7 @@
 <?php require_once 'core/init.php'; ?>
 
 <?php 
-
+$err = array();
 if(Input::exists()) {
     if(Token::check(Input::get('token'))){
         $validation = new Validation();
@@ -49,7 +49,7 @@ if(Input::exists()) {
                     'date' => $date,
                     'addition_info' => $obj,
                 ));
-                Session::flash('home', 'Ban da tao thanh cong 1 tai khoan');
+                Session::flash('success', 'Một Tài Khoản Vừa Được Tạo');
                 Redirect::to('index.php');
 
             }catch(Exception $e) {
@@ -57,7 +57,9 @@ if(Input::exists()) {
                 } 
         }
         else {
-            print_r($validation->errors());
+            foreach ($validate->errors() as $key => $value) {
+                    $err[] = $value;
+                }
         }
     }
    
@@ -68,6 +70,20 @@ if(Input::exists()) {
 
 
 <?php View::include('blocks/header.php') ?>
+
+    <div class="error-display" style="display: fixed; left:0; bottom: 0; position: fixed">
+        <?php 
+            if(!empty($err)){
+                foreach ($err as $key => $value) {
+                    echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <strong>Lỗi!</strong> '.$value.'</div>';
+                }
+            }
+        ?>
+    </div>
 
 	<div class="jumbotron">
       <div class="container">
@@ -81,37 +97,28 @@ if(Input::exists()) {
     	<form action="" method="post" class="form-control" id="form-box">
     		<div id="appendbox">
                 <div>
-                    <label for="pincode">Tên Dịch Vụ</label>
+                    <label for="service_name">Tên Dịch Vụ</label>
                     <input type="text" class="form-control" name="service_name">
                 </div>
                 <div>
-                    <label for="pincode">Username/Email</label>
+                    <label for="service_username">Username/Email</label>
                     <input type="text" class="form-control" name="service_username">
                 </div>
                 <div>
-                    <label for="pincode">Mật Khẩu</label>
+                    <label for="service_password">Mật Khẩu</label>
                     <input type="text" class="form-control" name="service_password">
                 </div>
                 <br>
                 <div class="float-right" id="genPasswrapper">
-                    <a href="#" class="btn btn-success" onclick="makePassword('action');" style="color:#fff" class="form-control">Sinh mật khẩu? (+)</a>
+                    <div class="btn btn-success" onclick="makePassword('action');" style="color:#fff; cursor: pointer;" class="form-control">Sinh mật khẩu? (+)</div>
                     <div id="gen"></div>
                 </div>
                 <div class="float-left">
-                    <a href="#" class="btn btn-primary" onclick="loadMore();" style="color:#fff" class="form-control">Thêm trường thông tin? (+)</a>
+                    <div href="#" class="btn btn-primary" onclick="loadMore();" style="color:#fff; cursor: pointer;" class="form-control">Thêm trường thông tin? (+)</div>
                 </div>
                 <div class="clearfix"></div>
                 <br>
-                <!-- <div style="display: flex;">
-                        <div class="col-md-6">
-                            <label for="pincode">Tên Trường Thông Tin</label>
-                            <input type="text" class="form-control" name="addition[]" placeholder="vd: Câu hỏi bí mật...">
-                        </div>       
-                        <div class="col-md-6">
-                            <label for="pincode">Giá Trị</label>
-                            <textarea class="form-control" name="additionVal[]" placeholder="vd: Con mèo..."></textarea>
-                        </div> 
-                </div> -->
+
                 <div class="clearfix"></div>      
             </div>
 
@@ -122,7 +129,7 @@ if(Input::exists()) {
 
     <script type="text/javascript">
 
-
+        //Make Password
         function makePassword(){
 
             var req = new XMLHttpRequest();
@@ -135,9 +142,9 @@ if(Input::exists()) {
             req.onreadystatechange = function() {
                 if(req.readyState == 400 || req.status == 200) {
                     var passbox = '';
-                    passbox += '<div style="border: 1px solid rgba(0,0,0,.15); height: 30px; border-radius: 5px; box-sizing: border-box; padding: 3px; display: flex"><span class="float-left">';
+                    passbox += '<div id="copyTxt" style="border: 1px solid rgba(0,0,0,.15); height: 30px; border-radius: 5px; box-sizing: border-box; padding: 3px; display: flex"><span class="float-left">';
                     passbox += req.responseText;
-                    passbox += '</span> <i style="cursor: pointer;" class="fa fa-clipboard" aria-hidden="true"></i></div>';
+                    passbox += '</span> <i onclick="copyText();" style="cursor: pointer;" class="fa fa-clipboard" aria-hidden="true"></i></div>';
 
                     $('#gen').html(passbox);
                 }
@@ -145,14 +152,26 @@ if(Input::exists()) {
             
         }
 
-
-
+        //Load Addtional Info Form
         function loadMore(){
             input = '';
             input = '<div style="display: flex;"><div class="col-md-6"><label for="pincode">Tên Trường Thông Tin</label><input type="text" class="form-control" name="addition[]" placeholder="vd: Câu hỏi bí mật..."></div><div class="col-md-6"><label for="pincode">Giá Trị</label><textarea class="form-control" name="additionVal[]" placeholder="vd: Con mèo..."></textarea></div> </div><div class="clearfix"></div>';
 
             $('#appendbox').append(input);
         }
+
+
+        function copyText(){
+            var password = $('#copyTxt').text();
+            var temp = $('<input>');
+            $('body').append(temp);
+            temp.val(password).select();
+            document.execCommand('copy');
+            temp.remove();
+            alert("Copied");
+        }
+
+
     </script>
 
 
